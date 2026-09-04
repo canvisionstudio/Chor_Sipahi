@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raja Rani Chor Sipahi - Warli Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --warli-bg: #3C1316;
+            --warli-white: #F4EAE0;
+            --warli-accent: #D4A373;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--warli-bg);
+            color: var(--warli-white);
+            overflow-x: hidden;
+        }
+
+        .font-heading {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Custom Scrollbar for Logs */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(244, 234, 224, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--warli-accent); border-radius: 10px; }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade { animation: fadeIn 0.5s ease-in-out forwards; }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-slide-up { animation: slideUp 0.6s ease-out forwards; }
+
+        @keyframes pulse-border {
+            0% { border-color: rgba(244, 234, 224, 0.3); box-shadow: 0 0 0 0 rgba(244, 234, 224, 0.2); }
+            50% { border-color: rgba(244, 234, 224, 1); box-shadow: 0 0 15px 5px rgba(244, 234, 224, 0.4); }
+            100% { border-color: rgba(244, 234, 224, 0.3); box-shadow: 0 0 0 0 rgba(244, 234, 224, 0); }
+        }
+        .targetable {
+            animation: pulse-border 1.5s infinite;
+            cursor: pointer;
+        }
+        .targetable:hover { transform: scale(1.05) translateY(-5px); }
+
+        /* Warli UI Elements */
+        .warli-border {
+            border: 2px solid var(--warli-white);
+            background-image: 
+                linear-gradient(45deg, var(--warli-white) 25%, transparent 25%), 
+                linear-gradient(-45deg, var(--warli-white) 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, var(--warli-white) 75%), 
+                linear-gradient(-45deg, transparent 75%, var(--warli-white) 75%);
+            background-size: 10px 10px;
+            background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+            background-repeat: repeat-x, repeat-x, repeat-x, repeat-x;
+            padding-top: 15px; /* Space for the top border */
+            padding-bottom: 15px;
+        }
+
+        .paper-card {
+            background-color: var(--warli-white);
+            color: var(--warli-bg);
+            border: 3px solid var(--warli-accent);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .chit-folded {
+            background-color: #D4A373; /* Darker paper color */
+            border: 2px dashed #3C1316;
+            color: #3C1316;
+        }
+
+        /* SVG Patterns */
+        .warli-bg-pattern {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10 L40 30 L20 30 Z M30 50 L40 30 L20 30 Z' fill='none' stroke='%23F4EAE0' stroke-width='2'/%3E%3Ccircle cx='30' cy='5' r='3' fill='%23F4EAE0'/%3E%3C/svg%3E");
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen max-h-screen relative">
+    <div class="warli-bg-pattern"></div>
+
+    <!-- Reusable Warli SVGs -->
+    <svg style="display: none;">
+        <defs>
+            <g id="warli-person" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="50" cy="20" r="12" fill="currentColor"/>
+                <polygon points="50,32 30,65 70,65" fill="currentColor" stroke="none"/>
+                <polyline points="35,65 30,90" />
+                <polyline points="65,65 70,90" />
+                <polyline points="35,40 15,30" />
+                <polyline points="65,40 85,30" />
+            </g>
+        </defs>
+    </svg>
+
+    <!-- ================= HOME SCREEN ================= -->
+    <div id="screen-home" class="flex-1 flex flex-col items-center justify-center p-6 animate-fade">
+        <div class="text-center mb-8">
+            <div class="flex justify-center items-center gap-4 mb-4">
+                <svg viewBox="0 0 100 100" class="w-16 h-16 text-[#F4EAE0]"><use href="#warli-person"/></svg>
+                <svg viewBox="0 0 100 100" class="w-16 h-16 text-[#D4A373]"><use href="#warli-person"/></svg>
+                <svg viewBox="0 0 100 100" class="w-16 h-16 text-[#F4EAE0]"><use href="#warli-person"/></svg>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-heading font-bold text-[#F4EAE0] tracking-widest drop-shadow-lg mb-2">
+                Raja Rani
+            </h1>
+            <h2 class="text-3xl md:text-4xl font-heading font-semibold text-[#D4A373] tracking-wider mb-4">
+                Chor Sipahi
+            </h2>
+            <p class="text-sm md:text-base text-gray-300 max-w-md mx-auto">
+                The classic Indian deduction game, reimagined in traditional Warli art.
+            </p>
+        </div>
+
+        <div class="bg-black/30 p-8 rounded-2xl border border-[#F4EAE0]/20 backdrop-blur-sm w-full max-w-md animate-slide-up">
+            
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-[#D4A373] mb-2 uppercase tracking-wide">Number of Rounds</label>
+                <div class="flex items-center gap-4">
+                    <input type="range" id="round-slider" min="1" max="20" value="10" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-[#D4A373]">
+                    <span id="round-display" class="font-bold text-xl w-8 text-center">10</span>
+                </div>
+            </div>
+
+            <div class="space-y-4 mt-8">
+                <button onclick="initGame('BOTS')" class="w-full group relative paper-card py-4 px-6 rounded-xl font-bold text-lg hover:-translate-y-1 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.5)] flex items-center justify-center gap-3">
+                    <svg viewBox="0 0 100 100" class="w-8 h-8"><use href="#warli-person"/></svg>
+                    Play with Bots
+                </button>
+                
+                <button onclick="showOfflineSetup()" class="w-full group relative border-2 border-[#D4A373] text-[#D4A373] hover:bg-[#D4A373] hover:text-[#3C1316] py-3 px-6 rounded-xl font-bold transition flex items-center justify-center gap-3">
+                    Play Offline (Friends)
+                </button>
+
+                <button onclick="showOnlineLobby()" class="w-full group relative border-2 border-gray-500 text-gray-400 hover:bg-gray-500 hover:text-white py-3 px-6 rounded-xl font-bold transition flex items-center justify-center gap-3">
+                    Create Online Server
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= OFFLINE SETUP SCREEN ================= -->
+    <div id="screen-offline" class="hidden flex-1 flex-col items-center justify-center p-6 animate-fade">
+        <div class="bg-black/40 p-8 rounded-2xl border border-[#F4EAE0]/20 backdrop-blur-sm w-full max-w-md animate-slide-up">
+            <h2 class="text-3xl font-heading font-bold text-[#D4A373] mb-6 text-center border-b border-[#D4A373]/30 pb-4">Offline Pass & Play</h2>
+            <p class="text-sm text-gray-300 mb-6 text-center">Gather around one screen. Chits will be dealt face-down for everyone to peek secretly.</p>
+            
+            <div class="space-y-4 mb-8">
+                <input type="text" id="off-p1" placeholder="Player 1 Name (You)" class="w-full bg-black/50 border border-[#D4A373]/50 rounded-lg px-4 py-3 text-[#F4EAE0] focus:outline-none focus:border-[#D4A373]">
+                <input type="text" id="off-p2" placeholder="Player 2 Name" class="w-full bg-black/50 border border-[#D4A373]/50 rounded-lg px-4 py-3 text-[#F4EAE0] focus:outline-none focus:border-[#D4A373]">
+                <input type="text" id="off-p3" placeholder="Player 3 Name" class="w-full bg-black/50 border border-[#D4A373]/50 rounded-lg px-4 py-3 text-[#F4EAE0] focus:outline-none focus:border-[#D4A373]">
+                <input type="text" id="off-p4" placeholder="Player 4 Name" class="w-full bg-black/50 border border-[#D4A373]/50 rounded-lg px-4 py-3 text-[#F4EAE0] focus:outline-none focus:border-[#D4A373]">
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="showHome()" class="flex-1 py-3 px-4 rounded-xl font-bold border border-gray-500 text-gray-400 hover:bg-gray-800">Back</button>
+                <button onclick="initGame('OFFLINE')" class="flex-1 paper-card py-3 px-4 rounded-xl font-bold hover:-translate-y-1 shadow-lg">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ONLINE LOBBY SCREEN ================= -->
+    <div id="screen-online" class="hidden flex-1 flex-col items-center justify-center p-6 animate-fade">
+        <div class="bg-black/40 p-8 rounded-2xl border border-blue-400/30 backdrop-blur-sm w-full max-w-md animate-slide-up relative overflow-hidden">
+            <div class="absolute inset-0 bg-blue-900/10 z-0"></div>
+            <div class="relative z-10">
+                <h2 class="text-3xl font-heading font-bold text-blue-400 mb-2 text-center">Multiplayer Lobby</h2>
+                <p class="text-sm text-gray-400 mb-6 text-center">Connect to the Warli Servers</p>
+                
+                <div id="lobby-menu">
+                    <input type="text" id="on-name" placeholder="Your Username" class="w-full bg-black/50 border border-blue-400/50 rounded-lg px-4 py-3 text-[#F4EAE0] mb-6 focus:outline-none focus:border-blue-400">
+                    
+                    <button onclick="simulateCreateRoom()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 px-6 rounded-xl font-bold transition mb-4 shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                        Create New Room
+                    </button>
+                    
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="h-px bg-gray-600 flex-1"></div>
+                        <span class="text-xs text-gray-500 uppercase font-bold">OR</span>
+                        <div class="h-px bg-gray-600 flex-1"></div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <input type="text" id="room-code-input" placeholder="Room Code" class="flex-1 bg-black/50 border border-gray-500 rounded-lg px-4 py-3 text-center uppercase tracking-widest text-[#F4EAE0]">
+                        <button onclick="simulateJoinRoom()" class="bg-gray-700 hover:bg-gray-600 text-white px-6 rounded-xl font-bold">Join</button>
+                    </div>
+                    <button onclick="showHome()" class="w-full mt-6 py-2 text-sm font-bold text-gray-400 hover:text-white">Cancel</button>
+                </div>
+
+                <!-- Simulated Waiting Area -->
+                <div id="lobby-waiting" class="hidden flex-col items-center py-4">
+                    <div class="w-12 h-12 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <h3 class="text-lg font-bold text-white mb-1">Room Code: <span id="display-room-code" class="text-blue-400 tracking-widest bg-blue-900/30 px-2 py-1 rounded">---</span></h3>
+                    <p id="waiting-text" class="text-sm text-gray-400 mb-4">Waiting for players (1/4)...</p>
+                    <div class="w-full bg-gray-800 rounded-full h-2 mb-4">
+                        <div id="join-progress" class="bg-blue-500 h-2 rounded-full transition-all duration-500 w-1/4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= GAME SCREEN ================= -->
+    <div id="screen-game" class="hidden flex-col h-full animate-fade">
+        <header class="bg-black/40 border-b border-[#F4EAE0]/20 p-3 flex justify-between items-center shrink-0">
+            <button onclick="showHome()" class="text-[#D4A373] hover:text-[#F4EAE0] font-bold text-sm tracking-widest uppercase flex items-center gap-2">
+                <span>◄</span> Main Menu
+            </button>
+            <div class="text-center">
+                <h1 class="text-xl font-heading font-bold tracking-widest text-[#F4EAE0]">Raja Rani</h1>
+                <div class="text-xs text-[#D4A373]">Round <span id="current-round-text">1</span> / <span id="max-round-text">10</span></div>
+            </div>
+            <div class="w-20"></div> <!-- Spacer for centering -->
+        </header>
+
+        <main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+            
+            <!-- Game Board -->
+            <div class="flex-1 p-4 flex flex-col items-center justify-between relative overflow-y-auto">
+                
+                <!-- Opponents -->
+                <div id="bots-container" class="flex justify-center gap-3 sm:gap-6 mt-4 w-full">
+                    <!-- Cards injected here -->
+                </div>
+
+                <!-- Center Action Area -->
+                <div id="center-action" class="my-8 w-full max-w-xl text-center">
+                    <!-- Action text/buttons injected here -->
+                </div>
+
+                <!-- Player Area -->
+                <div id="player-container" class="flex justify-center mb-4">
+                    <!-- Player card injected here -->
+                </div>
+            </div>
+
+            <!-- Sidebar (Scores & Logs) -->
+            <div class="w-full lg:w-80 bg-black/30 border-t lg:border-t-0 lg:border-l border-[#F4EAE0]/20 flex flex-col shrink-0 lg:h-auto h-64 shadow-2xl">
+                <!-- Leaderboard -->
+                <div class="p-4 border-b border-[#F4EAE0]/10 shrink-0 bg-black/20">
+                    <h3 class="font-heading font-bold text-[#D4A373] tracking-widest mb-3 flex items-center gap-2">
+                        <span>🏆</span> Standings
+                    </h3>
+                    <div id="scoreboard" class="space-y-2 text-sm">
+                        <!-- Scores injected here -->
+                    </div>
+                </div>
+
+                <!-- Event Log -->
+                <div class="flex-1 flex flex-col min-h-0">
+                    <h3 class="p-2 px-4 bg-black/40 border-b border-[#F4EAE0]/10 font-bold text-[#F4EAE0] text-xs uppercase tracking-widest">Chronicles</h3>
+                    <div id="game-log" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm">
+                        <!-- Logs injected here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ================= GAME OVER SCREEN ================= -->
+    <div id="screen-game-over" class="hidden flex-1 flex-col items-center justify-center p-6 animate-fade">
+        <div class="bg-black/40 p-8 rounded-3xl border-2 border-[#D4A373] backdrop-blur-md w-full max-w-lg text-center shadow-[0_0_40px_rgba(212,163,115,0.2)] animate-slide-up">
+            <svg viewBox="0 0 100 100" class="w-24 h-24 text-[#D4A373] mx-auto mb-4"><use href="#warli-person"/></svg>
+            <h2 class="text-4xl font-heading font-bold text-[#F4EAE0] mb-2 uppercase tracking-widest">Game Over</h2>
+            <p class="text-[#D4A373] mb-8 font-medium">After <span id="final-rounds">10</span> Rounds of Deception...</p>
+            
+            <div id="final-rankings" class="space-y-3 mb-8 text-left">
+                <!-- Rankings injected here -->
+            </div>
+
+            <button onclick="showHome()" class="paper-card py-3 px-8 rounded-xl font-bold text-lg hover:-translate-y-1 shadow-lg w-full">
+                Play Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Modal for Info/Alerts -->
+    <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-[#F4EAE0] text-[#3C1316] px-6 py-3 rounded-full font-bold shadow-2xl transition-all duration-300 transform -translate-y-24 opacity-0 z-50">
+        Message
+    </div>
+
+    <script>
+        // Setup Slider Link
+        const roundSlider = document.getElementById('round-slider');
+        const roundDisplay = document.getElementById('round-display');
+        roundSlider.addEventListener('input', (e) => {
+            roundDisplay.innerText = e.target.value;
+        });
+
+        // --- Game Constants ---
+        const ROLES = {
+            RAJA: { id: 'RAJA', name: 'Raja', points: 1000, title: 'The King', icon: '👑' },
+            RANI: { id: 'RANI', name: 'Rani', points: 500, title: 'The Queen', icon: '👸' },
+            SIPAHI: { id: 'SIPAHI', name: 'Sipahi', points: 500, title: 'The Soldier', icon: '🛡️' },
+            CHOR: { id: 'CHOR', name: 'Chor', points: 0, title: 'The Thief', icon: '🥷' }
+        };
+
+        const PHASES = {
+            MENU: 'MENU',
+            DEALING: 'DEALING',
+            REVEAL_RAJA: 'REVEAL_RAJA',
+            GUESS_SIPAHI: 'GUESS_SIPAHI',
+            GUESS_CHOR: 'GUESS_CHOR',
+            ROUND_END: 'ROUND_END',
+            GAME_OVER: 'GAME_OVER'
+        };
+
+        // --- State ---
+        let state = {
+            phase: PHASES.MENU,
+            round: 0,
+            maxRounds: 10,
+            mode: 'BOTS',
+            players: [],
+            rajaId: null,
+            sipahiId: null,
+            suspects: [],
+            logs: []
+        };
+
+        // --- DOM Elements ---
+        const els = {
+            home: document.getElementById('screen-home'),
+            offline: document.getElementById('screen-offline'),
+            online: document.getElementById('screen-online'),
+            game: document.getElementById('screen-game'),
+            gameOver: document.getElementById('screen-game-over'),
+            bots: document.getElementById('bots-container'),
+            player: document.getElementById('player-container'),
+            center: document.getElementById('center-action'),
+            scoreboard: document.getElementById('scoreboard'),
+            log: document.getElementById('game-log'),
+            currentRound: document.getElementById('current-round-text'),
+            maxRound: document.getElementById('max-round-text'),
+            toast: document.getElementById('toast')
+        };
+
+        function showToast(msg) {
+            els.toast.innerText = msg;
+            els.toast.classList.remove('-translate-y-24', 'opacity-0');
+            els.toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                els.toast.classList.remove('translate-y-0', 'opacity-100');
+                els.toast.classList.add('-translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        function hideAllScreens() {
+            els.home.classList.add('hidden'); els.home.classList.remove('flex');
+            els.offline.classList.add('hidden'); els.offline.classList.remove('flex');
+            els.online.classList.add('hidden'); els.online.classList.remove('flex');
+            els.game.classList.add('hidden'); els.game.classList.remove('flex');
+            els.gameOver.classList.add('hidden'); els.gameOver.classList.remove('flex');
+        }
+
+        function showHome() {
+            hideAllScreens();
+            els.home.classList.remove('hidden'); els.home.classList.add('flex');
+            state.phase = PHASES.MENU;
+            
+            // Reset Lobby UI if returning
+            document.getElementById('lobby-menu').classList.remove('hidden');
+            document.getElementById('lobby-waiting').classList.add('hidden');
+            document.getElementById('lobby-waiting').classList.remove('flex');
+        }
+
+        function showOfflineSetup() {
+            hideAllScreens();
+            els.offline.classList.remove('hidden'); els.offline.classList.add('flex');
+        }
+
+        function showOnlineLobby() {
+            hideAllScreens();
+            els.online.classList.remove('hidden'); els.online.classList.add('flex');
+        }
+
+        async function simulateCreateRoom() {
+            const code = Math.random().toString(36).substring(2, 6).toUpperCase();
+            document.getElementById('display-room-code').innerText = `WARLI-${code}`;
+            
+            document.getElementById('lobby-menu').classList.add('hidden');
+            document.getElementById('lobby-waiting').classList.remove('hidden');
+            document.getElementById('lobby-waiting').classList.add('flex');
+            
+            const pBar = document.getElementById('join-progress');
+            const wText = document.getElementById('waiting-text');
+            
+            await delay(1500); pBar.style.width = '50%'; wText.innerText = 'Waiting for players (2/4)...';
+            await delay(1200); pBar.style.width = '75%'; wText.innerText = 'Waiting for players (3/4)...';
+            await delay(1500); pBar.style.width = '100%'; wText.innerText = 'Room Full! Starting Game...';
+            
+            await delay(800);
+            initGame('ONLINE');
+        }
+
+        async function simulateJoinRoom() {
+            const code = document.getElementById('room-code-input').value;
+            if(!code) return showToast('Please enter a room code.');
+            showToast(`Joining Room ${code.toUpperCase()}...`);
+            await delay(1000);
+            initGame('ONLINE');
+        }
+
+        function addLog(message, highlight = false) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            state.logs.push({ msg: message, time, highlight });
+            renderLogs();
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function initGame(mode) {
+            state.mode = mode;
+            state.maxRounds = parseInt(roundSlider.value) || 10;
+            state.round = 0;
+            state.logs = [];
+            
+            if (mode === 'BOTS') {
+                state.players = [
+                    { id: 0, name: 'You', isBot: false, score: 0 },
+                    { id: 1, name: 'Aarav (Bot)', isBot: true, score: 0 },
+                    { id: 2, name: 'Kabir (Bot)', isBot: true, score: 0 },
+                    { id: 3, name: 'Riya (Bot)', isBot: true, score: 0 }
+                ];
+            } else if (mode === 'OFFLINE') {
+                state.players = [
+                    { id: 0, name: document.getElementById('off-p1').value || 'Player 1', isBot: false, score: 0 },
+                    { id: 1, name: document.getElementById('off-p2').value || 'Player 2', isBot: false, score: 0 },
+                    { id: 2, name: document.getElementById('off-p3').value || 'Player 3', isBot: false, score: 0 },
+                    { id: 3, name: document.getElementById('off-p4').value || 'Player 4', isBot: false, score: 0 }
+                ];
+            } else if (mode === 'ONLINE') {
+                const myName = document.getElementById('on-name').value || 'You';
+                state.players = [
+                    { id: 0, name: myName, isBot: false, score: 0 },
+                    { id: 1, name: 'Vikram (Net)', isBot: true, score: 0 },
+                    { id: 2, name: 'Neha (Net)', isBot: true, score: 0 },
+                    { id: 3, name: 'Rohan (Net)', isBot: true, score: 0 }
+                ];
+            }
+            
+            els.maxRound.innerText = state.maxRounds;
+            
+            hideAllScreens();
+            els.game.classList.remove('hidden'); els.game.classList.add('flex');
+
+            addLog(`Game Started [${mode} Mode]. Playing to ${state.maxRounds} rounds.`, true);
+            startRound();
+        }
+
+        async function startRound() {
+            if (state.round >= state.maxRounds) {
+                endGame(); return;
+            }
+
+            state.round++;
+            els.currentRound.innerText = state.round;
+            state.phase = PHASES.DEALING;
+            addLog(`--- ROUND ${state.round} ---`, true);
+            
+            // Assign Roles
+            const availableRoles = [ROLES.RAJA, ROLES.RANI, ROLES.SIPAHI, ROLES.CHOR];
+            availableRoles.sort(() => Math.random() - 0.5); // Shuffle
+
+            state.players.forEach((p, index) => {
+                p.role = availableRoles[index];
+                p.isRevealed = false;
+                if (p.role.id === 'RAJA') state.rajaId = p.id;
+                if (p.role.id === 'SIPAHI') state.sipahiId = p.id;
+            });
+
+            render();
+            await delay(1500);
+
+            // Phase: REVEAL RAJA (Auto Reveal)
+            state.phase = PHASES.REVEAL_RAJA;
+            state.players[state.rajaId].isRevealed = true;
+            
+            const rajaPlayer = state.players[state.rajaId];
+            if (state.mode !== 'OFFLINE' && state.rajaId === 0) {
+                addLog(`👑 You are the Raja! You must find your Sipahi.`, true);
+            } else {
+                addLog(`👑 ${rajaPlayer.name} reveals as Raja! They ask: "Mera Sipahi kaun hai?"`, true);
+            }
+            render();
+
+            await delay(2000);
+
+            // Phase: GUESS SIPAHI
+            state.phase = PHASES.GUESS_SIPAHI;
+            render();
+            
+            if (rajaPlayer.isBot) {
+                handleBotRajaGuess();
+            } else if (state.mode === 'OFFLINE') {
+                showToast(`Pass device to ${rajaPlayer.name} to find the Sipahi.`);
+            }
+        }
+
+        async function handleBotRajaGuess() {
+            addLog(`Raja (${state.players[state.rajaId].name}) is searching for their Sipahi...`);
+            
+            const delayTime = state.mode === 'ONLINE' ? 2000 + Math.random() * 2000 : 3000;
+            await delay(delayTime);
+
+            const unrevealed = state.players.filter(p => !p.isRevealed).map(p => p.id);
+            const targetId = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+            resolveRajaGuess(state.rajaId, targetId);
+        }
+
+        async function handleBotSipahiGuess() {
+            addLog(`Sipahi (${state.players[state.sipahiId].name}) is observing the faces...`);
+            
+            const delayTime = state.mode === 'ONLINE' ? 2000 + Math.random() * 2000 : 3000;
+            await delay(delayTime);
+
+            const targetId = state.suspects[Math.floor(Math.random() * state.suspects.length)];
+            resolveSipahiGuess(state.sipahiId, targetId);
+        }
+
+        function onCardClick(targetId) {
+            if (state.phase === PHASES.GUESS_SIPAHI && !state.players[targetId].isRevealed) {
+                if (state.mode === 'OFFLINE' || state.rajaId === 0) {
+                    resolveRajaGuess(state.rajaId, targetId);
+                }
+            }
+            else if (state.phase === PHASES.GUESS_CHOR && state.suspects.includes(targetId)) {
+                if (state.mode === 'OFFLINE' || state.sipahiId === 0) {
+                    resolveSipahiGuess(state.sipahiId, targetId);
+                }
+            }
+        }
+
+        async function resolveRajaGuess(rajaId, targetId) {
+            state.phase = PHASES.ROUND_END; 
+            render(); 
+
+            const raja = state.players[rajaId];
+            const target = state.players[targetId];
+
+            addLog(`👉 Raja (${raja.name}) points at ${target.name}: "Tum mere Sipahi ho!"`, true);
+            
+            await delay(1500);
+            target.isRevealed = true;
+            render();
+
+            if (target.role.id === 'SIPAHI') {
+                addLog(`✅ CORRECT! ${target.name} is the Sipahi.`);
+                showToast(`✅ Raja found the Sipahi!`);
+                await delay(1500);
+                
+                state.suspects = state.players.filter(p => !p.isRevealed).map(p => p.id);
+                state.phase = PHASES.GUESS_CHOR;
+                render();
+
+                if (target.isBot) {
+                    handleBotSipahiGuess();
+                } else if (state.mode === 'OFFLINE') {
+                    showToast(`Pass device to ${target.name} to guess the Chor.`);
+                }
+            } else {
+                addLog(`❌ WRONG! ${target.name} is the ${target.role.name}.`);
+                addLog(`Raja loses their points to the real Sipahi. Chor escapes!`);
+                showToast(`❌ Raja guessed wrong!`);
+                
+                await delay(1500);
+                state.players.forEach(p => p.isRevealed = true);
+
+                const trueSipahi = state.players.find(p => p.role.id === 'SIPAHI');
+                const rani = state.players.find(p => p.role.id === 'RANI');
+
+                state.players[rajaId].score += 0; 
+                state.players[trueSipahi.id].score += ROLES.RAJA.points; // Sipahi gets Raja's points
+                state.players[rani.id].score += ROLES.RANI.points; // Rani is safe
+
+                render();
+            }
+        }
+
+        async function resolveSipahiGuess(sipahiId, targetId) {
+            state.phase = PHASES.ROUND_END;
+            render(); 
+
+            const sipahi = state.players[sipahiId];
+            const target = state.players[targetId];
+            const trueChor = state.players.find(p => p.role.id === 'CHOR');
+            const rani = state.players.find(p => p.role.id === 'RANI');
+            const raja = state.players[state.rajaId];
+
+            addLog(`👉 Sipahi (${sipahi.name}) points at ${target.name}: "Tu Chor hai!"`, true);
+            
+            await delay(1500);
+            state.players.forEach(p => p.isRevealed = true);
+
+            let sipahiPointsEarned = 0;
+            let chorPointsEarned = 0;
+
+            if (target.role.id === 'CHOR') {
+                addLog(`✅ CORRECT! ${target.name} was indeed the Chor.`);
+                sipahiPointsEarned = ROLES.SIPAHI.points; 
+                chorPointsEarned = ROLES.CHOR.points;     
+                showToast(`✅ ${sipahi.name} caught the Chor!`);
+            } else {
+                addLog(`❌ WRONG! ${target.name} was the Rani!`);
+                addLog(`The real Chor (${trueChor.name}) escapes with the points!`);
+                sipahiPointsEarned = 0;
+                chorPointsEarned = ROLES.SIPAHI.points; 
+                showToast(`❌ Wrong Guess! Chor escapes.`);
+            }
+
+            raja.score += ROLES.RAJA.points;
+            rani.score += ROLES.RANI.points;
+            sipahi.score += sipahiPointsEarned;
+            trueChor.score += chorPointsEarned;
+
+            render();
+        }
+
+        function endGame() {
+            state.phase = PHASES.GAME_OVER;
+            els.game.classList.add('hidden'); els.game.classList.remove('flex');
+            els.gameOver.classList.remove('hidden'); els.gameOver.classList.add('flex');
+            
+            document.getElementById('final-rounds').innerText = state.maxRounds;
+
+            const sortedPlayers = [...state.players].sort((a, b) => b.score - a.score);
+            let html = '';
+            
+            sortedPlayers.forEach((p, index) => {
+                const isMe = p.id === 0 || (!p.isBot && state.mode === 'OFFLINE');
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🎗️';
+                html += `
+                    <div class="flex justify-between items-center p-4 rounded-xl ${isMe ? 'paper-card text-[#3C1316]' : 'bg-black/30 border border-[#F4EAE0]/20 text-[#F4EAE0]'} transform transition hover:scale-105">
+                        <div class="flex items-center gap-4">
+                            <span class="text-2xl">${medal}</span>
+                            <span class="font-bold text-lg">${p.name}</span>
+                        </div>
+                        <div class="font-heading font-bold text-xl">${p.score} <span class="text-xs font-sans opacity-70">pts</span></div>
+                    </div>
+                `;
+            });
+            document.getElementById('final-rankings').innerHTML = html;
+        }
+
+        function render() {
+            renderBots();
+            renderPlayer();
+            renderCenter();
+            renderScoreboard();
+        }
+
+        function createCardHTML(player, isMainPlayer = false) {
+            const isSuspectSipahi = state.phase === PHASES.GUESS_SIPAHI && !player.isRevealed;
+            const isSuspectChor = state.phase === PHASES.GUESS_CHOR && state.suspects.includes(player.id);
+            
+            const isClickableTarget = 
+                (isSuspectSipahi && (state.mode === 'OFFLINE' || state.rajaId === 0)) ||
+                (isSuspectChor && (state.mode === 'OFFLINE' || state.sipahiId === 0));
+            
+            const showRole = player.isRevealed || (player.id === 0 && state.mode !== 'OFFLINE');
+
+            let onClickStr = '';
+            let cursorClass = '';
+            
+            if (isClickableTarget) {
+                onClickStr = `onclick="onCardClick(${player.id})"`;
+                cursorClass = 'targetable border-[#D4A373]';
+            }
+
+            let html = `<div ${onClickStr} 
+                             class="relative w-24 h-32 sm:w-32 sm:h-44 rounded-xl flex flex-col items-center justify-center p-2 text-center transition-all duration-300
+                             ${showRole ? `paper-card` : 'chit-folded shadow-inner'}
+                             ${cursorClass}
+                             ${!showRole && !isSuspectSipahi && !isSuspectChor && state.phase !== PHASES.DEALING && state.phase !== PHASES.REVEAL_RAJA ? 'opacity-80' : ''}
+                             ">`;
+
+            html += `<div class="absolute -top-3 bg-[#3C1316] text-[#F4EAE0] border border-[#D4A373] px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10 w-max max-w-full truncate">${player.name}</div>`;
+
+            if (showRole && player.role) {
+                html += `
+                    <div class="font-heading font-bold text-xl sm:text-2xl tracking-wider text-[#3C1316] mb-1">${player.role.name}</div>
+                    <div class="text-[10px] sm:text-xs text-[#3C1316]/70 uppercase tracking-widest font-semibold border-t border-[#3C1316]/20 pt-1 w-full">${player.role.title}</div>
+                    <div class="mt-auto bg-[#3C1316] text-[#F4EAE0] px-3 py-1 rounded-full text-xs font-bold w-full">${player.role.points} Pts</div>
+                `;
+                if (state.phase === PHASES.GUESS_SIPAHI && player.role.id === 'RAJA') {
+                    html += `<div class="absolute -bottom-4 bg-[#D4A373] text-[#3C1316] text-xs font-bold px-3 py-1 rounded-full animate-bounce w-max shadow-md">"Sipahi Kaun?"</div>`;
+                }
+                if (state.phase === PHASES.GUESS_CHOR && player.role.id === 'SIPAHI') {
+                    html += `<div class="absolute -bottom-4 bg-black text-[#F4EAE0] text-xs font-bold px-3 py-1 rounded-full animate-pulse shadow-md border border-[#F4EAE0]/30">Observing...</div>`;
+                }
+            } else {
+                html += `
+                    <svg viewBox="0 0 100 100" class="w-10 h-10 sm:w-16 sm:h-16 opacity-30 text-[#3C1316]"><use href="#warli-person"/></svg>
+                    <div class="text-[10px] sm:text-xs font-bold text-[#3C1316] mt-2 uppercase tracking-widest">Folded</div>
+                `;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function renderBots() {
+            els.bots.innerHTML = '';
+            for (let i = 1; i <= 3; i++) els.bots.innerHTML += createCardHTML(state.players[i]);
+        }
+
+        function renderPlayer() {
+            els.player.innerHTML = createCardHTML(state.players[0], true);
+        }
+
+        function renderCenter() {
+            let html = '';
+            switch (state.phase) {
+                case PHASES.DEALING:
+                    html = `<div class="w-12 h-12 border-4 border-[#D4A373] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <h2 class="text-xl font-bold text-[#F4EAE0] tracking-widest uppercase">Distributing Parchiyan</h2>`;
+                    break;
+                case PHASES.REVEAL_RAJA:
+                    html = `<h2 class="text-2xl font-heading font-bold text-[#D4A373] mb-2 drop-shadow-md">Finding the Raja...</h2>
+                            <p class="text-[#F4EAE0] text-sm">The King reveals themselves.</p>`;
+                    break;
+                case PHASES.GUESS_SIPAHI:
+                    const raja = state.players[state.rajaId];
+                    if (state.mode === 'OFFLINE' || state.rajaId === 0) {
+                        html = `<h2 class="text-2xl font-heading font-bold text-[#D4A373] mb-2 drop-shadow-md">You are Raja!</h2>
+                                <p class="text-[#F4EAE0] text-sm">Select a folded chit to find your Sipahi.</p>`;
+                    } else {
+                        html = `<h2 class="text-xl font-heading font-bold text-[#D4A373] mb-2">${raja.name} is the Raja</h2>
+                                <p class="text-[#F4EAE0] text-sm opacity-80">They are finding their Sipahi...</p>`;
+                    }
+                    break;
+                case PHASES.GUESS_CHOR:
+                    const sipahi = state.players[state.sipahiId];
+                    if (state.mode === 'OFFLINE' || state.sipahiId === 0) {
+                        html = `<h2 class="text-2xl font-heading font-bold text-[#D4A373] mb-2 drop-shadow-md">You are Sipahi!</h2>
+                                <p class="text-[#F4EAE0] text-sm">Select a folded chit to catch the Chor.</p>`;
+                    } else {
+                        html = `<h2 class="text-xl font-heading font-bold text-[#D4A373] mb-2">${sipahi.name} is the Sipahi</h2>
+                                <p class="text-[#F4EAE0] text-sm opacity-80">They are deducing who the Chor is...</p>`;
+                    }
+                    break;
+                case PHASES.ROUND_END:
+                    html = `<button onclick="startRound()" class="paper-card py-3 px-8 rounded-full font-bold text-lg hover:-translate-y-1 shadow-[4px_4px_0px_rgba(0,0,0,0.5)] transition animate-slide-up">
+                                ${state.round >= state.maxRounds ? 'View Final Results' : 'Next Round'}
+                            </button>`;
+                    break;
+            }
+            els.center.innerHTML = html;
+        }
+
+        function renderScoreboard() {
+            const sortedPlayers = [...state.players].sort((a, b) => b.score - a.score);
+            let html = '';
+            sortedPlayers.forEach((p, index) => {
+                const isHuman = !p.isBot;
+                html += `
+                    <div class="flex justify-between items-center p-2 rounded ${isHuman && state.mode !== 'BOTS' ? 'bg-[#D4A373] text-[#3C1316] font-bold' : (p.id===0 ? 'bg-[#D4A373] text-[#3C1316] font-bold' : 'bg-transparent text-[#F4EAE0] border-b border-[#F4EAE0]/10')}">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs opacity-70 w-4">${index + 1}.</span>
+                            <span class="truncate max-w-[100px]">${p.name}</span>
+                        </div>
+                        <div class="font-heading font-bold">${p.score}</div>
+                    </div>
+                `;
+            });
+            els.scoreboard.innerHTML = html;
+        }
+
+        function renderLogs() {
+            els.log.innerHTML = '';
+            state.logs.forEach(log => {
+                const bgClass = log.highlight ? 'bg-[#D4A373]/20 border-l-2 border-[#D4A373] text-[#F4EAE0] font-medium' : 'border-b border-[#F4EAE0]/10 text-gray-400';
+                els.log.innerHTML += `<div class="p-2 mb-1 text-xs ${bgClass} rounded-r animate-fade">
+                                        <span class="opacity-50 mr-1 block text-[10px] mb-1">${log.time}</span>${log.msg}
+                                      </div>`;
+            });
+            els.log.scrollTop = els.log.scrollHeight;
+        }
+
+    </script>
+</body>
+</html>
