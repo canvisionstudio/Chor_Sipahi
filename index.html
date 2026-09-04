@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raja Rani Chor Sipahi - Warli Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -292,6 +293,48 @@
     </div>
 
     <script>
+        const AudioEngine = {
+            initialized: false,
+            init: async function() {
+                if (this.initialized) return;
+                try {
+                    await Tone.start();
+                    this.synths = {
+                        click: new Tone.Synth({ envelope: { attack: 0.01, decay: 0.1, sustain: 0, release: 0.1 } }).toDestination(),
+                        correct: new Tone.PolySynth(Tone.Synth).toDestination(),
+                        wrong: new Tone.PolySynth(Tone.Synth).toDestination(),
+                        deal: new Tone.NoiseSynth({ noise: { type: "brown" }, envelope: { attack: 0.01, decay: 0.2, sustain: 0 } }).toDestination(),
+                        bgm: new Tone.MembraneSynth().toDestination()
+                    };
+                    
+                    this.synths.click.volume.value = -12;
+                    this.synths.correct.volume.value = -8;
+                    this.synths.wrong.volume.value = -8;
+                    this.synths.deal.volume.value = -15;
+                    this.synths.bgm.volume.value = -25; // Subtle tribal drum
+
+                    Tone.Transport.bpm.value = 90;
+                    this.bgmLoop = new Tone.Loop(time => {
+                        this.synths.bgm.triggerAttackRelease("C2", "8n", time);
+                    }, "4n").start(0);
+                    Tone.Transport.start();
+
+                    this.initialized = true;
+                } catch(e) { console.warn("Audio Engine init failed", e); }
+            },
+            playClick: function() { if(this.initialized) this.synths.click.triggerAttackRelease("E5", "32n"); },
+            playCorrect: function() { if(this.initialized) this.synths.correct.triggerAttackRelease(["C4", "E4", "G4", "C5"], "8n"); },
+            playWrong: function() { if(this.initialized) this.synths.wrong.triggerAttackRelease(["C3", "Db3", "Gb3"], "4n"); },
+            playDeal: function() { 
+                if(!this.initialized) return;
+                const now = Tone.now();
+                this.synths.deal.triggerAttackRelease("16n", now);
+                this.synths.deal.triggerAttackRelease("16n", now + 0.15);
+                this.synths.deal.triggerAttackRelease("16n", now + 0.3);
+                this.synths.deal.triggerAttackRelease("16n", now + 0.45);
+            }
+        };
+
         // Setup Slider Link
         const roundSlider = document.getElementById('round-slider');
         const roundDisplay = document.getElementById('round-display');
@@ -365,7 +408,9 @@
             els.gameOver.classList.add('hidden'); els.gameOver.classList.remove('flex');
         }
 
-        function showHome() {
+        async function showHome() {
+            await AudioEngine.init();
+            AudioEngine.playClick();
             hideAllScreens();
             els.home.classList.remove('hidden'); els.home.classList.add('flex');
             state.phase = PHASES.MENU;
@@ -376,17 +421,23 @@
             document.getElementById('lobby-waiting').classList.remove('flex');
         }
 
-        function showOfflineSetup() {
+        async function showOfflineSetup() {
+            await AudioEngine.init();
+            AudioEngine.playClick();
             hideAllScreens();
             els.offline.classList.remove('hidden'); els.offline.classList.add('flex');
         }
 
-        function showOnlineLobby() {
+        async function showOnlineLobby() {
+            await AudioEngine.init();
+            AudioEngine.playClick();
             hideAllScreens();
             els.online.classList.remove('hidden'); els.online.classList.add('flex');
         }
 
         async function simulateCreateRoom() {
+            await AudioEngine.init();
+            AudioEngine.playClick();
             const code = Math.random().toString(36).substring(2, 6).toUpperCase();
             document.getElementById('display-room-code').innerText = `WARLI-${code}`;
             
@@ -406,6 +457,8 @@
         }
 
         async function simulateJoinRoom() {
+            await AudioEngine.init();
+            AudioEngine.playClick();
             const code = document.getElementById('room-code-input').value;
             if(!code) return showToast('Please enter a room code.');
             showToast(`Joining Room ${code.toUpperCase()}...`);
@@ -423,7 +476,9 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        function initGame(mode) {
+        async function initGame(mode) {
+            await AudioEngine.init();
+            AudioEngine.playClick();
             state.mode = mode;
             state.maxRounds = parseInt(roundSlider.value) || 10;
             state.round = 0;
@@ -472,6 +527,8 @@
             state.phase = PHASES.DEALING;
             addLog(`--- ROUND ${state.round} ---`, true);
             
+            AudioEngine.playDeal();
+
             // Assign Roles
             const availableRoles = [ROLES.RAJA, ROLES.RANI, ROLES.SIPAHI, ROLES.CHOR];
             availableRoles.sort(() => Math.random() - 0.5); // Shuffle
@@ -533,6 +590,7 @@
         }
 
         function onCardClick(targetId) {
+            AudioEngine.playClick();
             if (state.phase === PHASES.GUESS_SIPAHI && !state.players[targetId].isRevealed) {
                 if (state.mode === 'OFFLINE' || state.rajaId === 0) {
                     resolveRajaGuess(state.rajaId, targetId);
@@ -559,6 +617,7 @@
             render();
 
             if (target.role.id === 'SIPAHI') {
+                AudioEngine.playCorrect();
                 addLog(`✅ CORRECT! ${target.name} is the Sipahi.`);
                 showToast(`✅ Raja found the Sipahi!`);
                 await delay(1500);
@@ -573,6 +632,7 @@
                     showToast(`Pass device to ${target.name} to guess the Chor.`);
                 }
             } else {
+                AudioEngine.playWrong();
                 addLog(`❌ WRONG! ${target.name} is the ${target.role.name}.`);
                 addLog(`Raja loses their points to the real Sipahi. Chor escapes!`);
                 showToast(`❌ Raja guessed wrong!`);
@@ -610,11 +670,13 @@
             let chorPointsEarned = 0;
 
             if (target.role.id === 'CHOR') {
+                AudioEngine.playCorrect();
                 addLog(`✅ CORRECT! ${target.name} was indeed the Chor.`);
                 sipahiPointsEarned = ROLES.SIPAHI.points; 
                 chorPointsEarned = ROLES.CHOR.points;     
                 showToast(`✅ ${sipahi.name} caught the Chor!`);
             } else {
+                AudioEngine.playWrong();
                 addLog(`❌ WRONG! ${target.name} was the Rani!`);
                 addLog(`The real Chor (${trueChor.name}) escapes with the points!`);
                 sipahiPointsEarned = 0;
@@ -631,6 +693,7 @@
         }
 
         function endGame() {
+            AudioEngine.playCorrect();
             state.phase = PHASES.GAME_OVER;
             els.game.classList.add('hidden'); els.game.classList.remove('flex');
             els.gameOver.classList.remove('hidden'); els.gameOver.classList.add('flex');
